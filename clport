@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Error: Enter port number!"
+    echo "Example: closeport 8080"
+    exit 1
+fi
+
+PORT=$1
+
+sudo iptables -D INPUT -p tcp --dport $PORT -j ACCEPT 2>/dev/null
+sudo iptables -D INPUT -p udp --dport $PORT -j ACCEPT 2>/dev/null
+
+echo "❌ Port $PORT is no longer allowed (TCP/UDP rules removed)"
+sudo netfilter-persistent save

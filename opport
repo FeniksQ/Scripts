@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Error: Enter port number!"
+    echo "Example: openport 8080"
+    exit 1
+fi
+
+PORT=$1
+
+sudo iptables -A INPUT -p tcp --dport $PORT -j ACCEPT && \
+sudo iptables -A INPUT -p udp --dport $PORT -j ACCEPT && \
+echo "✅ Port $PORT successfully opened for TCP and UDP"
+sudo netfilter-persistent save
